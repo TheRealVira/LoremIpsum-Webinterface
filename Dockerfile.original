@@ -6,7 +6,8 @@ RUN apt-get update && \
     wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get install -y build-essential nodejs
 WORKDIR /app
-EXPOSE 80
+EXPOSE 58747
+EXPOSE 44316
 
 # Install building tools for our application
 FROM microsoft/dotnet:2.2.100-preview3-sdk AS build
@@ -26,3 +27,4 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "LoremIpsum.dll"]
+
