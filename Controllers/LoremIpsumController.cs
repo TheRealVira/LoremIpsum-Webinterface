@@ -8,7 +8,7 @@ namespace LoremIpsum.Controllers
 {
     [Route("interface/lipsum_generator")]
     [ApiController]
-    public class LoremIpsumController : Controller
+    public class LoremIpsumController : ControllerBase
     {
         private HttpClient Client { get; }
 
