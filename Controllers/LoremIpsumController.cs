@@ -49,11 +49,5 @@ namespace LoremIpsum.Controllers
 
             return $"{request.Scheme}://{host}{pathBase}";
         }
-
-        public enum LoremIpsumGeneratorType
-        {
-            Static,
-            Dynamic
-        }
     }
 }

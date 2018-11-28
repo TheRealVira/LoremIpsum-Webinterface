@@ -1,10 +1,15 @@
 <div class='container-fluid'>
   <div class='row'>
-    <div class='col-sm-3'>
-      <app-nav-menu></app-nav-menu>
+    <div class='col-sm-1'>
     </div>
-    <div class='col-sm-9 body-content'>
-      <router-outlet></router-outlet>
+    <div class='col-sm-11 body-content'>
+      <div *ngIf="loggedIn; else loggedOut">
+        <home-component></home-component>
+      </div>
+
+      <ng-template #loggedOut>
+        <logon-component></logon-component>
+      </ng-template>
     </div>
   </div>
 </div>

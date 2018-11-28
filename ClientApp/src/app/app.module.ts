@@ -11,6 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { AboutComponent } from './about/about.component';
 import { LoremIpsumComponent } from "./lorem-ipsum/loremipsum.component";
+import { LogonComponent } from "./logon/logon.component";
 
 @NgModule({
   declarations: [
@@ -20,18 +21,20 @@ import { LoremIpsumComponent } from "./lorem-ipsum/loremipsum.component";
     CounterComponent,
     FetchDataComponent,
     AboutComponent,
-    LoremIpsumComponent
+    LoremIpsumComponent,
+    LogonComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'about', component: AboutComponent },
-      { path: 'lorem-ipsum', component: LoremIpsumComponent}
+      { path: 'lorem-ipsum', component: LoremIpsumComponent },
+      { path: 'home', component: HomeComponent },
+      { path: '', component: LogonComponent, pathMatch: 'full' }
     ])
   ],
   providers: [],
