@@ -27,7 +27,6 @@ export class LoremIpsumComponent {
   }
 
   generate() {
-    alert(this.baseUrl);
     this.http.get<string[]>(this.baseUrl +
       'interface/lipsum_generator/' +
       LoremIpsumGeneratorType[this.currentValue] +

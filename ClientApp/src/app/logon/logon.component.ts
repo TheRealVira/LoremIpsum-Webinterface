@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'logon-component',
@@ -6,14 +7,24 @@ import { Component } from '@angular/core';
 })
 export class LogonComponent {
   failedAttempts = 0;
+  username:String;
+  password:String;
 
   tryToLogon(): void {
-    //this.loggedIn = !!localStorage.getItem('auth_token');
-
-    //if (this.loggedIn) {
-    //  this.failedAttempts = 0;
-    //} else {
-    //  this.failedAttempts++;
-    //}
+    this.http.get<string[]>(this.baseUrl +
+      'interface/logon/' +
+      this.username +
+      "/"+
+      this.password).subscribe(result => {
+        if (result[0] === "denied") {
+          this.failedAttempts++;
+        } else {
+          localStorage.setItem("access_token", result[0]);
+        }
+      },
+      error => console.error(error));
   }
+
+
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
 }

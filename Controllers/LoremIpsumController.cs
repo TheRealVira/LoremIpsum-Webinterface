@@ -6,8 +6,8 @@ using Newtonsoft.Json;
 
 namespace LoremIpsum.Controllers
 {
-    [Route("interface/lipsum_generator")]
     [ApiController]
+    [Route("interface/lipsum_generator")]
     public class LoremIpsumController : ControllerBase
     {
         private HttpClient Client { get; }
@@ -19,35 +19,35 @@ namespace LoremIpsum.Controllers
 
         [HttpGet("{generatorType}/{count}/{length}")]
         [ActionName("GetLoremIpsumText")]
-        public async Task<List<string>> GetLoremIpsumText(string generatorType, int count, int length)
+        public async Task<IEnumerable<string>> GetLoremIpsumText(string generatorType, int count, int length)
         {
-            var url = GetBaseUrl() + "/api/lipsum_generator/" +
+            var url = "https://lipsumapi.azurewebsites.net/api/lipsum_generator/" +
                       generatorType + "/" + count + "/" + length;
 
-            var content = JsonConvert.SerializeObject(new List<string>()
-                {"The required service currently seems to be down."});
+            var content = string.Empty;
 
             try
             {
-                content = await Client.GetStringAsync(url);
+                var response = await Client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    content = await response.Content
+                        .ReadAsAsync<string>();
+                }
+                else
+                {
+                    content = JsonConvert.SerializeObject(new List<string>()
+                        {"The required service currently seems to be down."});
+                }   
             }
             catch
             {
                 // ignored
             }
 
-            return JsonConvert.DeserializeObject<List<string>>(content);
-        }
+            var test =  JsonConvert.DeserializeObject<IEnumerable<string>>(content);
 
-        public string GetBaseUrl()
-        {
-            var request = this.Request;
-
-            var host = request.Host.ToUriComponent();
-
-            var pathBase = request.PathBase.ToUriComponent();
-
-            return $"{request.Scheme}://{host}{pathBase}";
+            return test;
         }
     }
 }

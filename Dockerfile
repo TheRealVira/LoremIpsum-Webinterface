@@ -1,25 +1,24 @@
-# Setup base image and configure node.js
-FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
+FROM microsoft/dotnet:2.1-aspnetcore-runtime-stretch-slim AS base
+
+# Setup NodeJs
 RUN apt-get update && \
     apt-get install -y wget && \
     apt-get install -y gnupg2 && \
-    wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
+    wget -qO- https://deb.nodesource.com/setup_6.x | bash - && \
     apt-get install -y build-essential nodejs
+# End setup
 WORKDIR /app
 EXPOSE 80
 
-# Install building tools for our application
-FROM microsoft/dotnet:2.2.100-preview3-sdk AS build
+FROM microsoft/dotnet:sdk AS build
 WORKDIR /src
-COPY ["LoremIpsum/LoremIpsum.csproj", "LoremIpsum/"]
-RUN dotnet restore "LoremIpsum/LoremIpsum.csproj"
+COPY LoremIpsum.csproj ./
+RUN apt-get update && apt-get install -y libcurl3
+RUN dotnet restore LoremIpsum.csproj
 COPY . .
-WORKDIR "/src/LoremIpsum"
 RUN dotnet build "LoremIpsum.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
-    apt-get install -y build-essential nodejs
 RUN dotnet publish "LoremIpsum.csproj" -c Release -o /app
 
 FROM base AS final

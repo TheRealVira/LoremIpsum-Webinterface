@@ -33,8 +33,8 @@ import { LogonComponent } from "./logon/logon.component";
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'about', component: AboutComponent },
       { path: 'lorem-ipsum', component: LoremIpsumComponent },
-      { path: 'home', component: HomeComponent },
-      { path: '', component: LogonComponent, pathMatch: 'full' }
+      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'logon', component: LogonComponent }
     ])
   ],
   providers: [],
